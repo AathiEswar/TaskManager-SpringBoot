@@ -1,34 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import TodoMain from './components/TodoMain'
+import Welcome from './components/Welcome'
+import LoginComponent from './components/LoginComponent'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import ErrorComponent from './components/Common/ErrorComponent'
+import TodoList from './components/TodoList'
+import Header from './components/Common/Header'
+import Footer from './components/Common/Footer'
+import Layout from './components/Common/Layout'
+import AuthContextWrapper, { useAuth } from './components/context/authContext'
+
+function AuthRoute({ children }) {
+  const authContext = useAuth();
+
+  if (authContext.isAuth) {
+    return { children }
+  }
+  return <Navigate to={'/'} />
+
+}
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <AuthContextWrapper>
+      <BrowserRouter>
+        <Layout>
+          <Routes>
+            <Route path='/' element={<TodoMain />}></Route>
+            <Route path='/login' element={<TodoMain />}></Route>
+            <Route path='/welcome' element={
+              <AuthRoute>
+                <Welcome />
+              </AuthRoute>}>
+            </Route>
+            <Route path='/list' element={
+              <AuthRoute>
+                <TodoList />
+              </AuthRoute>
+            }></Route>
+            <Route path='*' element={<ErrorComponent />}></Route>
+          </Routes>
+        </Layout>
+      </BrowserRouter>
+    </AuthContextWrapper>
   )
 }
 
