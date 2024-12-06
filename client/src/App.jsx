@@ -1,12 +1,9 @@
 import './App.css'
 import TodoMain from './components/TodoMain'
 import Welcome from './components/Welcome'
-import LoginComponent from './components/LoginComponent'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import ErrorComponent from './components/Common/ErrorComponent'
 import TodoList from './components/TodoList'
-import Header from './components/Common/Header'
-import Footer from './components/Common/Footer'
 import Layout from './components/Common/Layout'
 import AuthContextWrapper, { useAuth } from './components/context/authContext'
 
